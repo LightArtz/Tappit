@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image";
 
 interface HeroProps {
   onOrderClick: () => void
@@ -25,7 +26,7 @@ export default function Hero({ onOrderClick }: HeroProps) {
   }, [])
 
   return (
-    <section className="relative overflow-hidden pt-20 pb-32 px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden min-h-screen flex items-center py-24 px-10 md:py-32 sm:px-8 lg:px-12">
       {/* Animated background elements */}
       <div className="absolute top-20 right-10 w-72 h-72 bg-cyan-300/20 rounded-full blur-3xl animate-pulse"></div>
       <div
@@ -33,7 +34,7 @@ export default function Hero({ onOrderClick }: HeroProps) {
         style={{ animationDelay: "1s" }}
       ></div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-6xl w-full mx-auto relative z-10">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-6">
@@ -43,7 +44,7 @@ export default function Hero({ onOrderClick }: HeroProps) {
               </span>
             </div>
 
-            <h1 className="text-6xl md:text-7xl font-bold text-balance leading-tight">
+            <h1 className="text-6xl md:text-6xl font-bold text-balance leading-tight">
               <span className="bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Connect Instantly
               </span>
@@ -58,13 +59,13 @@ export default function Hero({ onOrderClick }: HeroProps) {
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <button
                 onClick={onOrderClick}
-                className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition transform hover:scale-105"
+                className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition transform hover:scale-105 cursor-pointer"
               >
                 Order Now
               </button>
             </div>
 
-            <div className="flex gap-8 pt-8 text-sm text-gray-600">
+            <div className="flex gap-8 pt-8 text-lg text-gray-600">
               <div>
                 <div className="font-bold text-gray-900">100%</div>
                 <div>NFC Enabled</div>
@@ -81,7 +82,7 @@ export default function Hero({ onOrderClick }: HeroProps) {
           </div>
 
           {/* Right Visual - Tap Animation */}
-          <div className="relative h-96 md:h-full flex items-center justify-center px-4 sm:px-0">
+          <div className="hidden md:flex relative h-96 md:h-full items-center justify-center px-4 sm:px-0">
             <div className="relative w-64 h-64 md:w-80 md:h-80">
               {/* Phone */}
               <div
@@ -104,10 +105,13 @@ export default function Hero({ onOrderClick }: HeroProps) {
                 }`}
               >
                 <div className="text-center">
-                  {/* Tappit Logo - Cyan circle with yellow dot */}
-                  <div className="w-16 h-16 bg-cyan-300 rounded-full flex items-center justify-center relative">
-                    <div className="w-4 h-4 bg-yellow-400 rounded-full absolute top-2 right-2"></div>
-                  </div>
+                  <Image
+                    src="/tappit-logo.jpg" 
+                    alt="Tappit Logo"
+                    width={106}
+                    height={106}
+                    className="object-contain drop-shadow-lg rounded-xl"
+                  />
                 </div>
               </div>
 

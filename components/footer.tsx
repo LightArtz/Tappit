@@ -1,22 +1,28 @@
 "use client"
 
-import { Mail, Phone, MapPin } from "lucide-react"
+import { Mail, Phone, MapPin, Instagram } from "lucide-react"
+import type React from "react"
 
 interface FooterProps {
   onOrderClick: () => void
 }
 
 export default function Footer({ onOrderClick }: FooterProps) {
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault()
+    const element = document.getElementById(targetId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   return (
     <footer className="bg-gray-900 text-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-4 gap-12 mb-12">
+        <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-cyan-500 rounded-full flex items-center justify-center">
-                <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-              </div>
               <span className="text-xl font-bold">Tappit</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
@@ -29,51 +35,24 @@ export default function Footer({ onOrderClick }: FooterProps) {
             <h4 className="font-bold mb-4">Product</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
-                <a href="#benefits" className="hover:text-white transition">
-                  Features
+                <a href="#benefits" onClick={(e) => handleSmoothScroll(e, "benefits")} className="hover:text-white transition cursor-pointer">
+                  Benefits
                 </a>
               </li>
               <li>
-                <a href="#designs" className="hover:text-white transition">
-                  Designs
-                </a>
-              </li>
-              <li>
-                <a href="#how-it-works" className="hover:text-white transition">
+                <a href="#how-it-works" onClick={(e) => handleSmoothScroll(e, "how-it-works")} className="hover:text-white transition cursor-pointer">
                   How It Works
                 </a>
               </li>
               <li>
-                <button onClick={onOrderClick} className="hover:text-white transition">
+                <a href="#designs" onClick={(e) => handleSmoothScroll(e, "designs")} className="hover:text-white transition cursor-pointer">
+                  Designs
+                </a>
+              </li>
+              <li>
+                <button onClick={onOrderClick} className="hover:text-white transition text-left w-full cursor-pointer"> {/* Added text-left, w-full, cursor-pointer */}
                   Order
                 </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="font-bold mb-4">Company</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>
-                <a href="#" className="hover:text-white transition">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition">
-                  Privacy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition">
-                  Terms
-                </a>
               </li>
             </ul>
           </div>
@@ -82,6 +61,12 @@ export default function Footer({ onOrderClick }: FooterProps) {
           <div>
             <h4 className="font-bold mb-4">Contact</h4>
             <ul className="space-y-3 text-sm text-gray-400">
+              <li className="flex items-center gap-2">
+                <Instagram size={16} />
+                <a href="https://instagram.com/tappit.id" target="_blank" rel="noopener noreferrer" className="hover:text-white transition"> {/* Replace with your actual Instagram link */}
+                  @tappit.id
+                </a>
+              </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} />
                 <a href="mailto:hello@tappit.com" className="hover:text-white transition">
@@ -106,17 +91,6 @@ export default function Footer({ onOrderClick }: FooterProps) {
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
             <p>&copy; 2025 Tappit. All rights reserved.</p>
-            <div className="flex gap-6">
-              <a href="#" className="hover:text-white transition">
-                Twitter
-              </a>
-              <a href="#" className="hover:text-white transition">
-                Instagram
-              </a>
-              <a href="#" className="hover:text-white transition">
-                LinkedIn
-              </a>
-            </div>
           </div>
         </div>
       </div>

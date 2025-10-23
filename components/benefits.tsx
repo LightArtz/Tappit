@@ -9,11 +9,6 @@ const benefits = [
     description: "Share your contact, socials, and links with a single tap. No typing, no friction.",
   },
   {
-    icon: Shield,
-    title: "Secure & Private",
-    description: "Your data stays encrypted. Control exactly what you share with each tap.",
-  },
-  {
     icon: Users,
     title: "Works Everywhere",
     description: "Compatible with any NFC-enabled phone. No app download required.",
@@ -23,11 +18,16 @@ const benefits = [
     title: "Always Updated",
     description: "Change your info anytime. Your Tappit always has the latest details.",
   },
+  {
+    icon: Shield,
+    title: "Secure & Private",
+    description: "Your data stays encrypted. Control exactly what you share with each tap.",
+  },
 ]
 
 export default function Benefits() {
   return (
-    <section id="benefits" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+    <section id="benefits" className="py-20 px-6 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 text-balance">Why Choose Tappit?</h2>

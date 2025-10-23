@@ -24,10 +24,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     fullName: "",
     email: "",
     phone: "",
+    nfcLink: "",
     design: "Classic Cyan",
-    bankName: "BCA",
-    accountNumber: "",
-    nominal: "",
   })
 
   const supabase = createBrowserClient(
@@ -43,10 +41,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       }
       setStep("payment")
     } else if (step === "payment") {
-      if (!formData.accountNumber || !formData.nominal) {
-        addToast("Please fill in bank details and nominal", "error")
-        return
-      }
       setStep("confirm")
     }
   }
@@ -91,52 +85,80 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+
+    if (step !== "confirm") {
+      console.warn("handleSubmit called on incorrect step:", step);
+      return; // Do nothing if not on the confirm step
+    }
+
+    setIsLoading(true);
+
+    let paymentProofUrl = null;
+    if (photoFile) {
+      const filePath = `payment_proofs/${Date.now()}_${photoFile.name}`;
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('order-proofs') // BUCKET NAME - Make sure this bucket exists and has correct policies!
+        .upload(filePath, photoFile);
+
+      if (uploadError) {
+        console.error('Error uploading payment proof:', uploadError);
+        addToast('Failed to upload payment proof. Please try again.', 'error');
+        setIsLoading(false);
+        return;
+      }
+
+      // Get the public URL
+      const { data: urlData } = supabase.storage
+        .from('order-proofs') // BUCKET NAME
+        .getPublicUrl(filePath);
+
+      paymentProofUrl = urlData?.publicUrl;
+    }
+
 
     try {
+      // IMPORTANT: Adjust Supabase insert data
       const { error } = await supabase.from("orders").insert([
         {
           full_name: formData.fullName,
           email: formData.email,
           phone: formData.phone,
+          nfc_link: formData.nfcLink, // Use the correct field name
           design: formData.design,
-          payment_details: {
-            method: "bank_transfer",
-            bank_name: formData.bankName,
-            account_number: formData.accountNumber,
-            nominal: formData.nominal,
-          },
-          photo_url: photoPreview || null,
-          status: "pending",
+          payment_proof_url: paymentProofUrl, // Use the uploaded URL or null
+          status: "pending_verification", // Or your preferred initial status after submission
+          // price: 25000, // No need to send if default is set in DB, unless price varies
         },
-      ])
+      ]).select(); // Added .select() to get potential errors returned properly
 
-      if (error) throw error
+      if (error) throw error;
 
-      addToast("Order placed successfully! We'll contact you soon.", "success")
-      setFormData({
+      addToast("Order placed successfully! We'll contact you soon.", "success");
+
+      // --- Reset State ---
+      setFormData({ // Reset form data
         fullName: "",
         email: "",
         phone: "",
+        nfcLink: "",
         design: "Classic Cyan",
-        bankName: "BCA",
-        accountNumber: "",
-        nominal: "",
-      })
-      setPhotoFile(null)
-      setPhotoPreview("")
-      setStep("details")
+      });
+      setPhotoFile(null); // Reset file state
+      setPhotoPreview(""); // Reset preview
+      setStep("details"); // Go back to the first step
+      // --- End Reset State ---
+
       setTimeout(() => {
-        onClose()
-      }, 1500)
+        onClose(); // Close modal after success
+      }, 1500);
     } catch (error) {
-      console.error("Order error:", error)
-      addToast("Failed to place order. Please try again.", "error")
+      console.error("Order submission error:", error);
+      addToast("Failed to place order. Please try again.", "error");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   if (!isOpen) return null
 
@@ -204,9 +226,22 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  placeholder="+1 (555) 000-0000"
+                  placeholder="081212345678"
                 />
               </div>
+
+              <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Link for NFC *</label>
+              <input
+                type="url"
+                required
+                value={formData.nfcLink}
+                onChange={(e) => setFormData({ ...formData, nfcLink: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                placeholder="e.g., https://instagram.com/yourusername"
+              />
+              <p className="text-xs text-gray-500 mt-1">This link will be programmed into your Tappit.</p>
+            </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2">Design *</label>
@@ -226,54 +261,32 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
           {/* Step 2: Payment */}
           {step === "payment" && (
-            <div className="space-y-4 animate-in fade-in">
+            <div className="space-y-6 animate-in fade-in"> 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Payment Method</label>
-                <div className="px-4 py-3 bg-gray-100 rounded-lg border border-gray-300">
-                  <p className="font-semibold text-gray-900">Bank Transfer</p>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Payment Details</label>
+                <div className="p-4 bg-gray-100 rounded-lg border border-gray-300 space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Bank:</span>
+                    <span className="font-semibold text-gray-900">BCA</span> {/* Replace with your bank */}
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Account No:</span>
+                    <span className="font-semibold text-gray-900">1234567890</span> {/* Replace with your account number */}
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Account Name:</span>
+                    <span className="font-semibold text-gray-900">PT Tappit Indonesia</span> {/* Replace with your account name */}
+                  </div>
+                  <div className="flex justify-between pt-2 border-t border-gray-300 mt-2">
+                    <span className="text-gray-600 font-bold">Amount to Pay:</span>
+                    <span className="font-bold text-lg text-cyan-600">Rp 25.000</span> {/* Your fixed price */}
+                  </div>
                 </div>
               </div>
 
+              {/* Upload Proof of Payment Section */}
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Bank Name</label>
-                <select
-                  value={formData.bankName}
-                  onChange={(e) => setFormData({ ...formData, bankName: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                >
-                  <option>BCA</option>
-                  <option>Mandiri</option>
-                  <option>BNI</option>
-                  <option>CIMB Niaga</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">No Rekening (Account Number) *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.accountNumber}
-                  onChange={(e) => setFormData({ ...formData, accountNumber: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  placeholder="Enter your account number"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Nominal (Amount) *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.nominal}
-                  onChange={(e) => setFormData({ ...formData, nominal: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  placeholder="e.g., Rp 299.000"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Upload Proof of Payment</label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Upload Proof of Payment *</label>
                 <div
                   onDragOver={handleDragOver}
                   onDrop={handleDrop}
@@ -285,16 +298,17 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                     onChange={handlePhotoChange}
                     className="hidden"
                     id="photo-upload"
+                    required={true}
                   />
                   <label htmlFor="photo-upload" className="cursor-pointer block">
                     {photoPreview ? (
                       <div className="space-y-2">
                         <img
-                          src={photoPreview || "/placeholder.svg"}
+                          src={photoPreview} 
                           alt="Preview"
-                          className="w-20 h-20 mx-auto rounded-lg object-cover"
+                          className="w-20 h-20 mx-auto rounded-lg object-cover border"
                         />
-                        <p className="text-sm text-gray-600">Click to change</p>
+                        <p className="text-sm text-gray-600">Click or drop image to change</p>
                       </div>
                     ) : (
                       <div className="space-y-2">
@@ -302,15 +316,18 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                         <p className="text-sm text-gray-600">
                           Drop your image here, or <span className="text-cyan-600 font-semibold">browse</span>
                         </p>
+                        <p className="text-xs text-gray-500">JPG, PNG, max 5MB</p>
                       </div>
                     )}
                   </label>
                 </div>
+                {/* Optional: Add error message if photoFile is null and required */}
               </div>
 
+              {/* Note */}
               <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <p className="text-sm text-blue-900">
-                  <strong>Note:</strong> Please upload proof of payment after transferring to the account above.
+                  <strong>Note:</strong> Please transfer the exact amount and upload the proof of payment to proceed.
                 </p>
               </div>
             </div>
@@ -333,13 +350,13 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   <span className="text-gray-600">Phone:</span>
                   <span className="font-semibold text-gray-900">{formData.phone}</span>
                 </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">NFC Link:</span>
+                  <span className="font-semibold text-gray-900 truncate max-w-[50%]" title={formData.nfcLink}>{formData.nfcLink}</span>
+                </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Design:</span>
                   <span className="font-semibold text-gray-900">{formData.design}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Bank:</span>
-                  <span className="font-semibold text-gray-900">{formData.bankName}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Pickup:</span>
@@ -383,7 +400,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             {step !== "confirm" ? (
               <button
                 type="button"
-                onClick={handleNextStep}
+                onClick={(e) => { e.preventDefault(); handleNextStep(); }}
                 className="flex-1 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg font-bold hover:shadow-lg transition flex items-center justify-center gap-2"
               >
                 Next

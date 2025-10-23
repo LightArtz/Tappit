@@ -25,7 +25,7 @@ const designs = [
 
 export default function DesignOptions() {
   return (
-    <section id="designs" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+    <section id="designs" className="py-20 px-6 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 text-balance">Choose Your Style</h2>
@@ -34,7 +34,7 @@ export default function DesignOptions() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {designs.map((design, index) => (
-            <div key={index} className="group cursor-pointer">
+            <div key={index} className="group">
               <div className="relative mb-4 h-48 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:scale-105 duration-300">
                 <div className={`absolute inset-0 bg-gradient-to-br ${design.colors}`}></div>
                 <div className={`absolute top-4 right-4 w-8 h-8 ${design.accent} rounded-full`}></div>

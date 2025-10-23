@@ -41,9 +41,6 @@ export default function Navbar({ onOrderClick }: NavbarProps) {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-cyan-500 rounded-full flex items-center justify-center">
-              <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-            </div>
             <span className="text-xl font-bold bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
               Tappit
             </span>
@@ -74,7 +71,7 @@ export default function Navbar({ onOrderClick }: NavbarProps) {
             </a>
             <button
               onClick={onOrderClick}
-              className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition transform hover:scale-105"
+              className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition transform hover:scale-105 cursor-pointer"
             >
               Order Now
             </button>
