@@ -69,19 +69,19 @@ export default function Footer({ onOrderClick }: FooterProps) {
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} />
-                <a href="mailto:hello@tappit.com" className="hover:text-white transition">
-                  hello@tappit.com
+                <a href="mailto:tappitpin@gmail.com" className="hover:text-white transition">
+                  tappitpin@gmail.com
                 </a>
               </li>
-              <li className="flex items-center gap-2">
+              {/* <li className="flex items-center gap-2">
                 <Phone size={16} />
                 <a href="tel:+1234567890" className="hover:text-white transition">
                   +1 (234) 567-890
                 </a>
-              </li>
+              </li> */}
               <li className="flex items-start gap-2">
                 <MapPin size={16} className="mt-1" />
-                <span>San Francisco, CA</span>
+                <span>Tangerang, Indonesia</span>
               </li>
             </ul>
           </div>
