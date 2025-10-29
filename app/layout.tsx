@@ -9,9 +9,12 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Tappit - Connect Instantly with NFC",
+  title: "Tappit",
   description: "Share your contact, socials, and links with a single tap. No apps, no friction, just pure connection.",
-  generator: "v0.app",
+  // TO DO
+  // icons: {
+  //   icon: '/tappit-logo.jpg',
+  // },
 }
 
 export default function RootLayout({
