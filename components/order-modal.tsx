@@ -35,12 +35,16 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
   const handleNextStep = () => {
     if (step === "details") {
-      if (!formData.fullName || !formData.email || !formData.phone) {
+      if (!formData.fullName || !formData.email || !formData.phone || !formData.nfcLink) {
         addToast("Please fill in all required fields", "error")
         return
       }
       setStep("payment")
     } else if (step === "payment") {
+      if (!photoFile) {
+        addToast("Please upload your proof of payment", "error")
+        return
+      }
       setStep("confirm")
     }
   }
