@@ -6,17 +6,17 @@ const steps = [
   {
     number: "1",
     title: "Choose Your Design",
-    description: "Pick from 4 stunning Tappit designs that match your style.",
+    description: "Pick from 5+ stunning Tappit designs that match your style.",
   },
   {
     number: "2",
-    title: "Pre-Order",
-    description: "Fill out your details and secure your Tappit with a pre-order.",
+    title: "Order",
+    description: "Fill out your details and secure your Tappit.",
   },
   {
     number: "3",
     title: "Pick Up at Campus",
-    description: "Grab your Tappit at our booth during campus hours.",
+    description: "Grab your Tappit directly at the campus (booth or meet-up).",
   },
   {
     number: "4",

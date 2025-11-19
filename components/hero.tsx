@@ -71,7 +71,7 @@ export default function Hero({ onOrderClick }: HeroProps) {
                 <div>NFC Enabled</div>
               </div>
               <div>
-                <div className="font-bold text-gray-900">4</div>
+                <div className="font-bold text-gray-900">5+</div>
                 <div>Design Options</div>
               </div>
               <div>

@@ -198,7 +198,7 @@ export default function AdminPage() {
   // --- Render Admin Dashboard ---
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
-      <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-md p-6">
+      <div className="w-full mx-auto bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Tappit Orders</h1>
           <button
@@ -227,8 +227,8 @@ export default function AdminPage() {
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Order Date</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Name</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Contact</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Design</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">NFC Link</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-64">Design</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-64">NFC Link</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Proof</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
                   {/* Add more columns if needed */}
@@ -245,22 +245,37 @@ export default function AdminPage() {
                       <div>{order.email}</div>
                       <div>{order.phone}</div>
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{order.design}</td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 max-w-xs truncate">
-                      <a
-                        // Prepend "https://" if the link doesn't already start with http:// or https://
-                        href={
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
+                      <div className="w-64 truncate" title={order.design}>
+                        {order.design.startsWith("http") ? (
+                          <a 
+                            href={order.design} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-cyan-600 hover:underline"
+                          >
+                            {order.design}
+                          </a>
+                        ) : (
+                          order.design
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
+                      <div className="w-64 truncate" title={order.nfc_link}>
+                        <a
+                          href={
                             order.nfc_link && (order.nfc_link.startsWith('http://') || order.nfc_link.startsWith('https://'))
                             ? order.nfc_link
                             : `https://${order.nfc_link}`
-                        }
-                        target="_blank" // Keep opening in a new tab
-                        rel="noopener noreferrer" // Good security practice for external links
-                        className="text-cyan-600 hover:underline"
-                        title={order.nfc_link} // Keep the tooltip showing the raw link
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-cyan-600 hover:underline"
                         >
-                        {order.nfc_link} {/* Display the raw link text */}
+                          {order.nfc_link}
                         </a>
+                      </div>
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-sm text-center">
                       {order.payment_proof_url ? (
