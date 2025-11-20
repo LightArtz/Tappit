@@ -11,10 +11,9 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Tappit",
   description: "Share your contact, socials, and links with a single tap. No apps, no friction, just pure connection.",
-  // TO DO
-  // icons: {
-  //   icon: '/tappit-logo.jpg',
-  // },
+  icons: {
+    icon: "/contactless.png",
+  },
 }
 
 export default function RootLayout({
