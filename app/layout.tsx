@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Tappit",
   description: "Share your contact, socials, and links with a single tap. No apps, no friction, just pure connection.",
   icons: {
-    icon: "/contactless.png",
+    icon: "/tappit-logo.jpg",
   },
 }
 
