@@ -2,21 +2,21 @@
 
 const testimonials = [
   {
-    name: "Alex Chen",
-    role: "Entrepreneur",
-    content: "Tappit has completely changed how I network. No more fumbling for business cards!",
-    avatar: "👨‍💼",
+    name: "Sebastian",
+    role: "CS Student @ Binus",
+    content: "I love how easy it is to share my portfolio.",
+    avatar: "🧑‍💻",
   },
   {
-    name: "Jordan Smith",
-    role: "Creative Director",
-    content: "The design is sleek, the functionality is flawless. Absolutely love it.",
-    avatar: "👩‍🎨",
+    name: "Marco",
+    role: "CS Student @ Binus",
+    content: "Super clean design and the NFC works perfectly.",
+    avatar: "🧑‍💻",
   },
   {
-    name: "Casey Williams",
-    role: "Tech Enthusiast",
-    content: "Finally, a product that actually works as advertised. Highly recommend!",
+    name: "Abel",
+    role: "CS Student @ Binus",
+    content: "A must-have for networking!",
     avatar: "👨‍💻",
   },
 ]

@@ -4,22 +4,22 @@ import Image from "next/image"
 
 const designs = [
   {
-    name: "Classic Cyan",
+    name: "Design 1",
     colors: "from-cyan-400 to-cyan-500",
     accent: "bg-yellow-400",
-    image: "/placeholder.jpg",
+    image: "/product-1.jpg",
   },
   {
-    name: "Ocean Blue",
+    name: "Design 2",
     colors: "from-blue-400 to-blue-600",
     accent: "bg-purple-400",
-    image: "/placeholder.jpg",
+    image: "/product-2.jpg",
   },
   {
-    name: "Purple Dream",
+    name: "Design 3",
     colors: "from-purple-400 to-purple-600",
     accent: "bg-pink-400",
-    image: "/placeholder.jpg",
+    image: "/product-3.jpg",
   },
   {
     name: "Custom & More...",
@@ -41,7 +41,7 @@ export default function DesignOptions() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {designs.map((design, index) => (
             <div key={index} className="group">
-              <div className="relative mb-4 h-48 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:scale-105 duration-300">
+              <div className="relative mb-4 h-100 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:scale-105 duration-300">
                 {design.image ? (
                    /* Render Image if available */
                    <Image 
