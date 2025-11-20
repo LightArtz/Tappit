@@ -279,11 +279,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Account No:</span>
-                    <span className="font-semibold text-gray-900">1234567890</span>
+                    <span className="font-semibold text-gray-900">7010573020</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Name:</span>
-                    <span className="font-semibold text-gray-900">PT Tappit Indonesia</span>
+                    <span className="font-semibold text-gray-900">Jordi Austin Iskandar</span>
                   </div>
                   <div className="flex justify-between pt-2 border-t border-gray-300 mt-2">
                     <span className="text-gray-600 font-bold">Total:</span>
