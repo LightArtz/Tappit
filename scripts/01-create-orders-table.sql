@@ -33,3 +33,12 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 DROP TRIGGER IF EXISTS on_orders_updated ON public.orders;
 CREATE TRIGGER on_orders_updated BEFORE UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
+
+
+
+-- Second code
+create policy "Allow public update on orders"
+on public.orders
+for update
+using (true)
+with check (true);

@@ -131,7 +131,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           nfc_link: formData.nfcLink,
           design: designValue, // Will be 'Standard' or the URL
           payment_proof_url: paymentProofUrl,
-          status: "Pending Payment Verification",
+          status: "pending_payment_verification",
         },
       ]).select()
 

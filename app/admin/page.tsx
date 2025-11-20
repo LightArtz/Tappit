@@ -187,9 +187,6 @@ export default function AdminPage() {
               {loginLoading ? <Loader2 size={20} className="animate-spin" /> : "Login"}
             </button>
           </form>
-          <p className="mt-4 text-xs text-center text-red-600 font-semibold">
-            WARNING: This login method is insecure and for development only. Use Supabase Auth for production.
-          </p>
         </div>
       </div>
     );
