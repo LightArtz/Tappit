@@ -66,6 +66,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        addToast("File size must be less than 2MB", "error")
+        return
+      }
+
       setPhotoFile(file)
       const reader = new FileReader()
       reader.onloadend = () => setPhotoPreview(reader.result as string)
@@ -76,6 +81,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   const handleDesignChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        addToast("File size must be less than 2MB", "error")
+        return
+      }
+
       setDesignFile(file)
       const reader = new FileReader()
       reader.onloadend = () => setDesignPreview(reader.result as string)
