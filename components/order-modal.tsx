@@ -93,6 +93,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     }
   }
 
+  const orderPrice = designFile ? 25000 : 20000
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (step !== "confirm") return
@@ -142,6 +144,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           design: designValue, // Will be 'Standard' or the URL
           payment_proof_url: paymentProofUrl,
           status: "pending_payment_verification",
+          price: orderPrice,
         },
       ]).select()
 
@@ -297,7 +300,9 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                   </div>
                   <div className="flex justify-between pt-2 border-t border-gray-300 mt-2">
                     <span className="text-gray-600 font-bold">Total:</span>
-                    <span className="font-bold text-lg text-cyan-600">Rp 25.000</span>
+                    <span className="font-bold text-lg text-cyan-600">
+                      Rp {orderPrice.toLocaleString("id-ID")}
+                    </span>
                   </div>
                 </div>
               </div>
