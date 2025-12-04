@@ -12,13 +12,17 @@ import Footer from "@/components/footer"
 import ScrollAnimationWrapper from "@/components/scroll-animation-wrapper"
 
 export default function Home() {
-  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
+  // const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
+
+  const handleOrderClick = () => {
+    window.open("https://forms.gle/BqrHqwQUoiuoR4Ua7", "_blank")
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-purple-50">
-      <Navbar onOrderClick={() => setIsOrderModalOpen(true)} />
+      <Navbar onOrderClick={handleOrderClick} />
       <ScrollAnimationWrapper>
-        <Hero onOrderClick={() => setIsOrderModalOpen(true)} />
+        <Hero onOrderClick={handleOrderClick} />
       </ScrollAnimationWrapper>
       <ScrollAnimationWrapper>
         <div id="benefits">
@@ -38,8 +42,8 @@ export default function Home() {
       <ScrollAnimationWrapper>
         <Testimonials />
       </ScrollAnimationWrapper>
-      <OrderModal isOpen={isOrderModalOpen} onClose={() => setIsOrderModalOpen(false)} />
-      <Footer onOrderClick={() => setIsOrderModalOpen(true)} />
+      {/* <OrderModal isOpen={isOrderModalOpen} onClose={() => setIsOrderModalOpen(false)} /> */}
+      <Footer onOrderClick={handleOrderClick} />
     </main>
   )
 }
